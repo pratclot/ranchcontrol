@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">Ranch Control</string>
+    <string name="sampleTemperature2">1000</string>
+    <string name="sampleTemperature1">2000</string>
+    <string name="heatingButtonText">Start Heating</string>
+    <string name="master_switch_button_text">Disable Controls</string>
+</resources>
