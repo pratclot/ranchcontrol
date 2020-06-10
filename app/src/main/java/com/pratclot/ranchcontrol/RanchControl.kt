@@ -5,7 +5,7 @@ import com.facebook.stetho.Stetho
 import com.pratclot.ranchcontrol.di.AppComponent
 import com.pratclot.ranchcontrol.di.DaggerAppComponent
 
-class RanchControl: Application() {
+class RanchControl : Application() {
     val appComponent: AppComponent by lazy {
         initializeComponent()
     }

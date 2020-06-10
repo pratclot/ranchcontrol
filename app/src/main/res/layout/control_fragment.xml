@@ -1,15 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
+        <variable
+            name="temperatures"
+            type="androidx.lifecycle.LiveData&lt;com.pratclot.ranchcontrol.domain.Temperatures>" />
     </data>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".fragments.ControlFragment">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:orientation="horizontal">
+
+
+
+        </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -25,19 +39,23 @@
                 android:orientation="horizontal">
 
                 <TextView
-                    android:id="@+id/currentTemp2"
+                    android:id="@+id/tempHeater"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="24dp"
-                    android:text="@string/sampleTemperature2" />
+                    android:text="@string/sampleTemperature2"
+                    android:textSize="32sp"
+                    app:setTempHeater="@{temperatures}" />
 
                 <TextView
-                    android:id="@+id/currentTemp1"
+                    android:id="@+id/tempCauldron"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_marginHorizontal="24dp"
-                    android:text="@string/sampleTemperature1" />
+                    android:text="@string/sampleTemperature1"
+                    android:textSize="32sp"
+                    app:setTempCauldron="@{temperatures}" />
 
             </LinearLayout>
 
@@ -66,10 +84,10 @@
         </LinearLayout>
 
 
-        <com.google.android.material.bottomappbar.BottomAppBar
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom" />
+        <!--        <com.google.android.material.bottomappbar.BottomAppBar-->
+        <!--            android:layout_width="match_parent"-->
+        <!--            android:layout_height="wrap_content"-->
+        <!--            android:layout_gravity="bottom" />-->
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
 </layout>

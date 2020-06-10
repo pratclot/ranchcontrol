@@ -2,37 +2,49 @@ package com.pratclot.ranchcontrol.fragments
 
 import android.content.Context
 import android.os.Bundle
-import android.util.Log
-import android.view.*
+import android.view.LayoutInflater
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
+import android.view.View
+import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.Observer
+import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import com.pratclot.ranchcontrol.R
 import com.pratclot.ranchcontrol.RanchControl
 import com.pratclot.ranchcontrol.databinding.ControlFragmentBinding
+import com.pratclot.ranchcontrol.fragments.ui.login.LoginViewModel
 import com.pratclot.ranchcontrol.viewmodels.ControlViewModel
 import com.pratclot.ranchcontrol.viewmodels.ControlViewModelFactory
-import com.pratclot.ranchcontrol.viewmodels.TAG
-import io.reactivex.disposables.CompositeDisposable
 import javax.inject.Inject
 
+const val TAG = "ControlFragment"
+
 class ControlFragment : Fragment() {
-
-    companion object {
-        fun newInstance() = ControlFragment()
-    }
-
     private lateinit var binding: ControlFragmentBinding
-
-    private val disposable = CompositeDisposable()
 
     @Inject
     lateinit var viewModelFactory: ControlViewModelFactory
-    private val viewModel by activityViewModels<ControlViewModel> { viewModelFactory }
+
+    private val viewModel by viewModels<ControlViewModel> { viewModelFactory }
+    private val loginViewModel by activityViewModels<LoginViewModel>()
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.logOutMenuOption -> {
+                signOut()
+                true
+            }
+            else -> false
+        }
+    }
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         binding = DataBindingUtil.inflate(
@@ -43,30 +55,22 @@ class ControlFragment : Fragment() {
         )
         setHasOptionsMenu(true)
         binding.lifecycleOwner = viewLifecycleOwner
-        viewModel.testVal = 2
 
-//        viewModel.tempCauldron.observe(viewLifecycleOwner, Observer {
-//            binding.currentTemp1.text = it
-//        })
-//
+        viewModel.createJwtInterceptor(loginViewModel.jwtToken)
+        viewModel.createSocketService(viewLifecycleOwner)
+        viewModel.addDisposable()
 
-        binding.heatingButton.setOnClickListener {
-            addDisposable()
+        binding.apply {
+            lifecycleOwner = viewLifecycleOwner
+            temperatures = viewModel.temperatures
         }
 
         return binding.root
     }
 
-    private fun addDisposable() {
-        Log.e("FRAGMENT", "clicked!")
-        disposable.add(
-            viewModel.socketService.getTemperatures()
-                .subscribe({
-                    Log.e(TAG, "Logging ${it.tempCauldron}")
-                }, {
-                    Log.e(TAG, it.cause.toString())
-                })
-        )
+    private fun signOut() {
+        loginViewModel.auth.signOut()
+        findNavController().navigate(ControlFragmentDirections.actionControlFragmentToLoginFragment())
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -78,5 +82,4 @@ class ControlFragment : Fragment() {
         super.onAttach(context)
         (requireActivity().application as RanchControl).appComponent.inject(this)
     }
-
 }

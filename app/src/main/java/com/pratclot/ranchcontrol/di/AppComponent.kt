@@ -4,7 +4,9 @@ import android.app.Application
 import android.content.Context
 import com.pratclot.ranchcontrol.MainActivity
 import com.pratclot.ranchcontrol.fragments.ControlFragment
+import com.pratclot.ranchcontrol.fragments.ui.login.LoginFragment
 import com.pratclot.ranchcontrol.service.di.SocketModule
+import com.pratclot.ranchcontrol.viewmodels.ControlViewModel
 import dagger.BindsInstance
 import dagger.Component
 import javax.inject.Singleton
@@ -27,4 +29,6 @@ interface AppComponent {
 
     fun inject(activity: MainActivity)
     fun inject(fragment: ControlFragment)
+    fun inject(fragment: LoginFragment)
+    fun inject(viewModel: ControlViewModel)
 }
