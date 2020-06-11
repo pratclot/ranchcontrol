@@ -63,9 +63,15 @@ class ControlFragment : Fragment() {
         binding.apply {
             lifecycleOwner = viewLifecycleOwner
             temperatures = viewModel.temperatures
+            heaterControl = viewModel.HeaterControl()
         }
 
         return binding.root
+    }
+
+    override fun onDestroyView() {
+        viewModel.jwtInterceptor.client_token = ""
+        super.onDestroyView()
     }
 
     private fun signOut() {

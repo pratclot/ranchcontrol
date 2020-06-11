@@ -2,7 +2,9 @@
     <string name="app_name">Ranch Control</string>
     <string name="sampleTemperature2">1000</string>
     <string name="sampleTemperature1">2000</string>
-    <string name="heatingButtonText">Start Heating</string>
+    <string name="heatingButtonStartText">Start Heating</string>
+    <string name="heatingButtonStopText">Stop Heating</string>
+    <string name="heatingButtonDefaultText">Reading Current Status...</string>
     <string name="master_switch_button_text">Disable Controls</string>
     <!-- Strings related to login -->
     <string name="prompt_email">Email</string>

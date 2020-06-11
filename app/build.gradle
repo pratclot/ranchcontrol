@@ -81,6 +81,8 @@ dependencies {
     implementation "io.reactivex.rxjava2:rxandroid:2.1.1"
 
     implementation("com.squareup.moshi:moshi:1.9.2")
+
+    implementation "com.squareup.retrofit2:converter-moshi:${versions.retrofit}"
     implementation("com.squareup.moshi:moshi-kotlin:1.9.2")
     kapt("com.squareup.moshi:moshi-kotlin-codegen:1.9.2")
 
@@ -89,8 +91,10 @@ dependencies {
     implementation 'com.google.android.gms:play-services-auth:18.0.0'
 
     implementation "com.squareup.retrofit2:retrofit:${versions.retrofit}"
+    implementation group: 'com.squareup.retrofit2', name: 'adapter-rxjava2', version: "${versions.retrofit}"
 
-    
+
+
     implementation "com.google.android.material:material:${versions.material}"
 
 

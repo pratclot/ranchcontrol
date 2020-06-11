@@ -53,6 +53,7 @@ class LoginFragment : Fragment() {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_login, container, false)
 
         binding.apply {
+            lifecycleOwner = viewLifecycleOwner
             signInButton.setOnClickListener {
                 signIn()
             }

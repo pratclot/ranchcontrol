@@ -8,6 +8,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.pratclot.ranchcontrol.RanchControl
 import com.pratclot.ranchcontrol.domain.Temperatures
+import com.pratclot.ranchcontrol.service.IRestService
 import com.pratclot.ranchcontrol.service.ISocketService
 import com.pratclot.ranchcontrol.service.SocketServiceFactory
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -29,11 +30,15 @@ class ControlViewModel @Inject constructor(
     lateinit var socketServiceFactory: SocketServiceFactory
     lateinit var socketService: ISocketService
 
+    @Inject
+    lateinit var retrofitService: IRestService
+
     private var _temperatures = MutableLiveData<Temperatures>()
     val temperatures: LiveData<Temperatures>
         get() = _temperatures
 
     val disposable = CompositeDisposable()
+    val anotherDisposable = CompositeDisposable()
 
     init {
     }
@@ -81,5 +86,36 @@ class ControlViewModel @Inject constructor(
                 disposable.size() == 0
             }
             ?.addTo(disposable)
+    }
+
+    inner class HeaterControl() {
+        fun toggle() {
+            when (temperatures.value?.heaterStatus) {
+                "Off" -> {
+                    retrofitService.turnHeaterOn()
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribeOn(Schedulers.io())
+                        .subscribe(
+                            {
+                                Log.e(TAG, it.toString())
+                            },
+                            {
+                                Log.e(TAG, it.toString())
+                            }
+                        )
+                }
+                "On" -> retrofitService.turnHeaterOff()
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribeOn(Schedulers.io())
+                    .subscribe(
+                        {
+                            Log.e(TAG, it.toString())
+                        },
+                        {
+                            Log.e(TAG, it.toString())
+                        }
+                    )
+            }
+        }
     }
 }

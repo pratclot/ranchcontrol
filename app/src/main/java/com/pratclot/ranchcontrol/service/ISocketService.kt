@@ -8,7 +8,4 @@ import io.reactivex.Observable
 interface ISocketService {
     @Receive
     fun getTemperatures(): Flowable<Temperatures>
-
-    @Receive
-    fun getTemperaturesObservable(): Observable<Temperatures>
 }
