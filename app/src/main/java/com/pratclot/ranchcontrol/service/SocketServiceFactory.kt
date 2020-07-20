@@ -2,6 +2,7 @@ package com.pratclot.ranchcontrol.service
 
 import android.app.Application
 import androidx.lifecycle.LifecycleOwner
+import com.pratclot.ranchcontrol.di.ControlFragmentScope
 import com.pratclot.ranchcontrol.service.di.WS_SERVER_URL
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
@@ -20,6 +21,7 @@ class SocketServiceFactory @Inject constructor(
     val okHttpClient: OkHttpClient,
     val application: Application
 ) {
+    @ControlFragmentScope
     fun create(lifecycleOwner: LifecycleOwner): ISocketService {
 //            val lifecycle = AndroidLifecycle.ofApplicationForeground(application)
         val lifecycle = AndroidLifecycle.ofLifecycleOwnerForeground(application, lifecycleOwner)

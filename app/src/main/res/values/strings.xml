@@ -16,4 +16,6 @@
     <string name="invalid_password">Password must be >5 characters</string>
     <string name="login_failed">"Login failed"</string>
     <string name="sign_out_button_text">Sign Out</string>
+    <string name="default_notification_channel_id">alarms</string>
+    <string name="channel_description">Ranch alarms are collected into this channel</string>
 </resources>

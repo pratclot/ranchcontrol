@@ -7,6 +7,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.pratclot.ranchcontrol.RanchControl
+import com.pratclot.ranchcontrol.di.ControlFragmentScope
 import com.pratclot.ranchcontrol.domain.Temperatures
 import com.pratclot.ranchcontrol.service.IRestService
 import com.pratclot.ranchcontrol.service.ISocketService
@@ -21,6 +22,7 @@ import okhttp3.Response
 
 const val TAG = "ViewModel"
 
+@ControlFragmentScope
 class ControlViewModel @Inject constructor(
     var jwtInterceptor: JwtInterceptor,
     val application: Application
@@ -28,6 +30,7 @@ class ControlViewModel @Inject constructor(
 
     @Inject
     lateinit var socketServiceFactory: SocketServiceFactory
+    @ControlFragmentScope
     lateinit var socketService: ISocketService
 
     @Inject
@@ -91,19 +94,18 @@ class ControlViewModel @Inject constructor(
     inner class HeaterControl() {
         fun toggle() {
             when (temperatures.value?.heaterStatus) {
-                "Off" -> {
-                    retrofitService.turnHeaterOn()
-                        .observeOn(AndroidSchedulers.mainThread())
-                        .subscribeOn(Schedulers.io())
-                        .subscribe(
-                            {
-                                Log.e(TAG, it.toString())
-                            },
-                            {
-                                Log.e(TAG, it.toString())
-                            }
-                        )
-                }
+                "Off" -> retrofitService.turnHeaterOn()
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribeOn(Schedulers.io())
+                    .subscribe(
+                        {
+                            Log.e(TAG, it.toString())
+                        },
+                        {
+                            Log.e(TAG, it.toString())
+                        }
+                    )
+
                 "On" -> retrofitService.turnHeaterOff()
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribeOn(Schedulers.io())
